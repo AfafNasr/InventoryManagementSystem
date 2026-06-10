@@ -1,0 +1,53 @@
+using InventoryManagementSystem.Models;
+using Microsoft.Data.Sqlite;
+
+namespace InventoryManagementSystem.Repositories;
+
+public class SqliteProductRepository : IProductRepository
+{
+    private const string ConnectionString = "Data Source=inventory.db";
+
+    public bool ExistsByName(string name)
+    {
+        using SqliteConnection connection = new(ConnectionString);
+        connection.Open();
+
+        const string query =
+        """
+        SELECT COUNT(1)
+        FROM Products
+        WHERE LOWER(Name) = LOWER(@name);
+        """;
+
+        using SqliteCommand command = connection.CreateCommand();
+        command.CommandText = query;
+        command.Parameters.AddWithValue("@name", name.Trim());
+
+        long count = (long)command.ExecuteScalar()!;
+
+        return count > 0;
+    }
+
+    public void Add(Product product)
+    {
+        using SqliteConnection connection = new(ConnectionString);
+        connection.Open();
+
+        const string query =
+        """
+        INSERT INTO Products (Name, Price, Quantity, CreatedAt, UpdatedAt)
+        VALUES (@name, @price, @quantity, @createdAt, @updatedAt);
+        """;
+
+        using SqliteCommand command = connection.CreateCommand();
+        command.CommandText = query;
+
+        command.Parameters.AddWithValue("@name", product.Name);
+        command.Parameters.AddWithValue("@price", product.Price);
+        command.Parameters.AddWithValue("@quantity", product.Quantity);
+        command.Parameters.AddWithValue("@createdAt", product.CreatedAt.ToString("O"));
+        command.Parameters.AddWithValue("@updatedAt", DBNull.Value);
+
+        command.ExecuteNonQuery();
+    }
+}
