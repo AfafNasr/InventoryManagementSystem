@@ -46,7 +46,7 @@ public class InventoryController
               break;
 
               case "6":
-              ProductView.ShowMessage("Goodbye!");
+              ProductView.ShowMessage("Thank you for using Inventory Management System. Goodbye!");
               return;
             }
         }
