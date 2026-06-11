@@ -7,6 +7,22 @@ public class SqliteProductRepository : IProductRepository
 {
     private const string ConnectionString = "Data Source=inventory.db";
 
+    private static Product MapToProduct(SqliteDataReader reader)
+{
+    return new Product
+    {
+        Id = reader.GetInt32(0),
+        Name = reader.GetString(1),
+        Price = reader.GetDecimal(2),
+        Quantity = reader.GetInt32(3),
+        CreatedAt = DateTime.Parse(reader.GetString(4)),
+        UpdatedAt = reader.IsDBNull(5)
+            ? null
+            : DateTime.Parse(reader.GetString(5))
+    };
+}
+
+
     public bool ExistsByName(string name)
     {
         using SqliteConnection connection = new(ConnectionString);
@@ -50,4 +66,31 @@ public class SqliteProductRepository : IProductRepository
 
         command.ExecuteNonQuery();
     }
+    public List<Product> GetAll()
+{
+    List<Product> products = [];
+
+    using SqliteConnection connection = new(ConnectionString);
+    connection.Open();
+
+    const string query =
+    """
+    SELECT Id, Name, Price, Quantity, CreatedAt, UpdatedAt
+    FROM Products
+    ORDER BY Name;
+    """;
+
+    using SqliteCommand command = connection.CreateCommand();
+    command.CommandText = query;
+
+    using SqliteDataReader reader = command.ExecuteReader();
+
+    while (reader.Read())
+    {
+        products.Add(MapToProduct(reader));
+    }
+
+    return products;
+}
+
 }

@@ -1,6 +1,7 @@
 using InventoryManagementSystem.DTOs;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.Views;
+using InventoryManagementSystem.Models;
 
 namespace InventoryManagementSystem.Controllers;
 
@@ -27,7 +28,11 @@ public class InventoryController
                     AddProduct();
                     break;
 
-                case "2":
+                 case "2":
+                     ViewAllProducts();
+                     break;
+
+                case "3":
                     ProductView.ShowMessage("Goodbye!");
                     return;
 
@@ -46,4 +51,11 @@ public class InventoryController
 
         ProductView.ShowMessage(result);
     }
+
+    private void ViewAllProducts()
+{
+    List<Product> products = _inventoryService.GetAllProducts();
+
+    ProductView.DisplayProducts(products);
+}
 }

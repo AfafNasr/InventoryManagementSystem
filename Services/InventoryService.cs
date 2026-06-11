@@ -49,4 +49,9 @@ public class InventoryService : IInventoryService
 
         return "Product added successfully.";
     }
+
+    public List<Product> GetAllProducts()
+{
+    return _productRepository.GetAll();
+}
 }

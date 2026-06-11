@@ -7,7 +7,8 @@ public static class MenuView
         Console.WriteLine();
         Console.WriteLine("===== Inventory Management System =====");
         Console.WriteLine("1. Add Product");
-        Console.WriteLine("2. Exit");
+        Console.WriteLine("2. View All Products");
+        Console.WriteLine("3. Exit");
         Console.Write("Choose an option: ");
     }
 
