@@ -2,6 +2,7 @@ using InventoryManagementSystem.DTOs;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.Views;
 using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Helpers;
 
 namespace InventoryManagementSystem.Controllers;
 
@@ -33,12 +34,12 @@ public class InventoryController
                      break;
 
                 case "3":
-                    ProductView.ShowMessage("Goodbye!");
-                    return;
+                      EditProduct();
+                      break;
 
-                default:
-                    ProductView.ShowMessage("Invalid option. Please try again.");
-                    break;
+                case "4":
+                     ProductView.ShowMessage("Goodbye!");
+                     return;
             }
         }
     }
@@ -57,5 +58,26 @@ public class InventoryController
     List<Product> products = _inventoryService.GetAllProducts();
 
     ProductView.DisplayProducts(products);
+}
+
+private void EditProduct()
+{
+    string productName = InputHelper.ReadRequiredString("Enter product name to edit: ");
+
+    Product? product = _inventoryService.GetProductByName(productName);
+
+    if (product is null)
+    {
+        ProductView.ShowMessage("Product was not found.");
+        return;
+    }
+
+    ProductView.DisplayProduct(product);
+
+    UpdateProductDto updateProductDto = ProductView.ReadUpdateProduct(product);
+
+    string result = _inventoryService.UpdateProduct(productName, updateProductDto);
+
+    ProductView.ShowMessage(result);
 }
 }

@@ -93,4 +93,58 @@ public class SqliteProductRepository : IProductRepository
     return products;
 }
 
+public Product? GetByName(string name)
+{
+    using SqliteConnection connection = new(ConnectionString);
+    connection.Open();
+
+    const string query =
+    """
+    SELECT Id, Name, Price, Quantity, CreatedAt, UpdatedAt
+    FROM Products
+    WHERE LOWER(Name) = LOWER(@name)
+    LIMIT 1;
+    """;
+
+    using SqliteCommand command = connection.CreateCommand();
+    command.CommandText = query;
+    command.Parameters.AddWithValue("@name", name.Trim());
+
+    using SqliteDataReader reader = command.ExecuteReader();
+
+    if (!reader.Read())
+    {
+        return null;
+    }
+
+    return MapToProduct(reader);
+}
+
+public void Update(Product product)
+{
+    using SqliteConnection connection = new(ConnectionString);
+    connection.Open();
+
+    const string query =
+    """
+    UPDATE Products
+    SET Name = @name,
+        Price = @price,
+        Quantity = @quantity,
+        UpdatedAt = @updatedAt
+    WHERE Id = @id;
+    """;
+
+    using SqliteCommand command = connection.CreateCommand();
+    command.CommandText = query;
+
+    command.Parameters.AddWithValue("@id", product.Id);
+    command.Parameters.AddWithValue("@name", product.Name);
+    command.Parameters.AddWithValue("@price", product.Price);
+    command.Parameters.AddWithValue("@quantity", product.Quantity);
+    command.Parameters.AddWithValue("@updatedAt", DateTime.UtcNow.ToString("O"));
+
+    command.ExecuteNonQuery();
+}
+
 }

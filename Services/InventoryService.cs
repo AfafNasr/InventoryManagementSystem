@@ -54,4 +54,70 @@ public class InventoryService : IInventoryService
 {
     return _productRepository.GetAll();
 }
+
+public Product? GetProductByName(string name)
+{
+    if (string.IsNullOrWhiteSpace(name))
+    {
+        return null;
+    }
+
+    return _productRepository.GetByName(name.Trim());
+}
+
+public string UpdateProduct(string currentName, UpdateProductDto updateProductDto)
+{
+    string normalizedCurrentName = currentName.Trim();
+
+    if (string.IsNullOrWhiteSpace(normalizedCurrentName))
+    {
+        return "Product name cannot be empty.";
+    }
+
+    Product? existingProduct = _productRepository.GetByName(normalizedCurrentName);
+
+    if (existingProduct is null)
+    {
+        return "Product was not found.";
+    }
+
+    string updatedName = updateProductDto.Name?.Trim() ?? existingProduct.Name;
+    decimal updatedPrice = updateProductDto.Price ?? existingProduct.Price;
+    int updatedQuantity = updateProductDto.Quantity ?? existingProduct.Quantity;
+
+    if (string.IsNullOrWhiteSpace(updatedName))
+    {
+        return "Updated product name cannot be empty.";
+    }
+
+    if (updatedPrice <= 0)
+    {
+        return "Updated product price must be greater than zero.";
+    }
+
+    if (updatedQuantity < 0)
+    {
+        return "Updated product quantity cannot be negative.";
+    }
+
+    bool isNameChanged = !string.Equals(
+        existingProduct.Name,
+        updatedName,
+        StringComparison.OrdinalIgnoreCase
+    );
+
+    if (isNameChanged && _productRepository.ExistsByName(updatedName))
+    {
+        return "Another product with the same name already exists.";
+    }
+
+    existingProduct.Name = updatedName;
+    existingProduct.Price = updatedPrice;
+    existingProduct.Quantity = updatedQuantity;
+    existingProduct.UpdatedAt = DateTime.UtcNow;
+
+    _productRepository.Update(existingProduct);
+
+    return "Product updated successfully.";
+}
 }

@@ -99,6 +99,45 @@ if (lowStockProducts.Count > 0)
 
     Console.WriteLine(new string('-', 105));
 }
+public static UpdateProductDto ReadUpdateProduct(Product product)
+{
+    Console.WriteLine();
+    Console.WriteLine("----- Edit Product -----");
+    Console.WriteLine("Press Enter without typing anything to keep the current value.");
+    Console.WriteLine();
+
+    Console.WriteLine($"Current name: {product.Name}");
+    string? newName = InputHelper.ReadOptionalString("New name: ");
+
+    Console.WriteLine($"Current price: {product.Price:C}");
+    decimal? newPrice = InputHelper.ReadOptionalPositiveDecimal("New price: ");
+
+    Console.WriteLine($"Current quantity: {product.Quantity}");
+    int? newQuantity = InputHelper.ReadOptionalNonNegativeInt("New quantity: ");
+
+    return new UpdateProductDto
+    {
+        Name = newName,
+        Price = newPrice,
+        Quantity = newQuantity
+    };
+}
+public static void DisplayProduct(Product product)
+{
+    Console.WriteLine();
+    Console.WriteLine("----- Product Details -----");
+    Console.WriteLine($"ID: {product.Id}");
+    Console.WriteLine($"Name: {product.Name}");
+    Console.WriteLine($"Price: {product.Price:C}");
+    Console.WriteLine($"Quantity: {product.Quantity}");
+    Console.WriteLine($"Created At: {product.CreatedAt:yyyy-MM-dd HH:mm}");
+
+    string updatedAt = product.UpdatedAt.HasValue
+        ? product.UpdatedAt.Value.ToString("yyyy-MM-dd HH:mm")
+        : "N/A";
+
+    Console.WriteLine($"Updated At: {updatedAt}");
+}
 
     public static void ShowMessage(string message)
     {
