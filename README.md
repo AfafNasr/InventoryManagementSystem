@@ -131,7 +131,7 @@ Each product contains:
 
 ### Main Menu
 
-![Main Menu](docs\screenshots\main-menu.png)
+![Main Menu](C:\Users\AfafNasr\Desktop\InventoryManagementSystem\docs\screenshots\main-menu.png)
 
 ### View Products
 
@@ -139,7 +139,7 @@ Each product contains:
 
 ### Edit & Search Product
 
-![Edit & Search Product](docs\screenshots\edit&search-product.png)
+![Edit & Search Product](C:\Users\AfafNasr\Desktop\InventoryManagementSystem\docs\screenshots\edit&search-product.png)
 
 ### Database
 
