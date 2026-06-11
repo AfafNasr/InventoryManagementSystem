@@ -126,27 +126,6 @@ Each product contains:
 
 ---
 
-
-## Screenshots
-
-### Main Menu
-
-![Main Menu](C:\Users\AfafNasr\Desktop\InventoryManagementSystem\docs\screenshots\main-menu.png)
-
-### View Products
-
-![View Products](docs/screenshots/view-products.png)
-
-### Edit & Search Product
-
-![Edit & Search Product](C:\Users\AfafNasr\Desktop\InventoryManagementSystem\docs\screenshots\edit&search-product.png)
-
-### Database
-
-![Database](docs/screenshots/database.png)
-
----
-
 ## Database
 
 The application uses SQLite for data storage.
