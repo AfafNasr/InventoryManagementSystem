@@ -138,6 +138,21 @@ public static void DisplayProduct(Product product)
 
     Console.WriteLine($"Updated At: {updatedAt}");
 }
+public static string ReadProductNameToDelete()
+{
+    Console.WriteLine();
+    Console.WriteLine("----- Delete Product -----");
+
+    return InputHelper.ReadRequiredString("Enter product name to delete: ");
+}
+public static bool ConfirmDelete(Product product)
+{
+    Console.WriteLine();
+    Console.WriteLine("You are about to delete this product:");
+    DisplayProduct(product);
+
+    return InputHelper.ReadConfirmation("Are you sure you want to delete this product? (y/n): ");
+}
 
     public static void ShowMessage(string message)
     {

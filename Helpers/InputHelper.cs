@@ -101,4 +101,25 @@ public static int? ReadOptionalNonNegativeInt(string message)
         Console.WriteLine("Please enter a valid non-negative number, or press Enter to keep the current value.");
     }
 }
+
+public static bool ReadConfirmation(string message)
+{
+    while (true)
+    {
+        Console.Write(message);
+        string? input = Console.ReadLine()?.Trim().ToLower();
+
+        if (input is "y" or "yes")
+        {
+            return true;
+        }
+
+        if (input is "n" or "no")
+        {
+            return false;
+        }
+
+        Console.WriteLine("Please enter 'y' for yes or 'n' for no.");
+    }
+}
 }

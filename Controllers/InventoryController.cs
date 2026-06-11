@@ -38,8 +38,12 @@ public class InventoryController
                       break;
 
                 case "4":
-                     ProductView.ShowMessage("Goodbye!");
-                     return;
+                DeleteProduct();
+                break;
+
+               case "5":
+               ProductView.ShowMessage("Goodbye!");
+               return;
             }
         }
     }
@@ -77,6 +81,31 @@ private void EditProduct()
     UpdateProductDto updateProductDto = ProductView.ReadUpdateProduct(product);
 
     string result = _inventoryService.UpdateProduct(productName, updateProductDto);
+
+    ProductView.ShowMessage(result);
+}
+
+private void DeleteProduct()
+{
+    string productName = ProductView.ReadProductNameToDelete();
+
+    Product? product = _inventoryService.GetProductByName(productName);
+
+    if (product is null)
+    {
+        ProductView.ShowMessage("Product was not found.");
+        return;
+    }
+
+    bool confirmed = ProductView.ConfirmDelete(product);
+
+    if (!confirmed)
+    {
+        ProductView.ShowMessage("Delete operation cancelled.");
+        return;
+    }
+
+    string result = _inventoryService.DeleteProduct(productName);
 
     ProductView.ShowMessage(result);
 }

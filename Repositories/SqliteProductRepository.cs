@@ -147,4 +147,22 @@ public void Update(Product product)
     command.ExecuteNonQuery();
 }
 
+public void Delete(int id)
+{
+    using SqliteConnection connection = new(ConnectionString);
+    connection.Open();
+
+    const string query =
+    """
+    DELETE FROM Products
+    WHERE Id = @id;
+    """;
+
+    using SqliteCommand command = connection.CreateCommand();
+    command.CommandText = query;
+    command.Parameters.AddWithValue("@id", id);
+
+    command.ExecuteNonQuery();
+}
+
 }

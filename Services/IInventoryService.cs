@@ -12,4 +12,6 @@ public interface IInventoryService
      Product? GetProductByName(string name);
 
      string UpdateProduct(string currentName, UpdateProductDto updateProductDto);
+
+     string DeleteProduct(string name);
 }

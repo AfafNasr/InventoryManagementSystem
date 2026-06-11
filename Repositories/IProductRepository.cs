@@ -13,4 +13,6 @@ public interface IProductRepository
     Product? GetByName(string name);
 
     void Update(Product product);
+
+    void Delete(int id);
 }

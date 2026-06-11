@@ -120,4 +120,25 @@ public string UpdateProduct(string currentName, UpdateProductDto updateProductDt
 
     return "Product updated successfully.";
 }
+
+public string DeleteProduct(string name)
+{
+    string normalizedName = name.Trim();
+
+    if (string.IsNullOrWhiteSpace(normalizedName))
+    {
+        return "Product name cannot be empty.";
+    }
+
+    Product? product = _productRepository.GetByName(normalizedName);
+
+    if (product is null)
+    {
+        return "Product was not found.";
+    }
+
+    _productRepository.Delete(product.Id);
+
+    return "Product deleted successfully.";
+}
 }
