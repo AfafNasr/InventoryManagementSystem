@@ -130,6 +130,7 @@ public static void DisplayProduct(Product product)
     Console.WriteLine($"Name: {product.Name}");
     Console.WriteLine($"Price: {product.Price:C}");
     Console.WriteLine($"Quantity: {product.Quantity}");
+    Console.WriteLine($"Stock Status: {GetStockStatus(product.Quantity)}");
     Console.WriteLine($"Created At: {product.CreatedAt:yyyy-MM-dd HH:mm}");
 
     string updatedAt = product.UpdatedAt.HasValue
@@ -154,6 +155,30 @@ public static bool ConfirmDelete(Product product)
     return InputHelper.ReadConfirmation("Are you sure you want to delete this product? (y/n): ");
 }
 
+public static string ReadProductNameToSearch()
+{
+    Console.WriteLine();
+    Console.WriteLine("----- Search Product -----");
+
+    return InputHelper.ReadRequiredString("Enter product name to search: ");
+}
+
+private static string GetStockStatus(int quantity)
+{
+    const int lowStockThreshold = 5;
+
+    if (quantity == 0)
+    {
+        return "Out Of Stock";
+    }
+
+    if (quantity <= lowStockThreshold)
+    {
+        return "Low Stock";
+    }
+
+    return "In Stock";
+}
     public static void ShowMessage(string message)
     {
         Console.WriteLine(message);

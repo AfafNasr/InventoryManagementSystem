@@ -41,9 +41,13 @@ public class InventoryController
                 DeleteProduct();
                 break;
 
-               case "5":
-               ProductView.ShowMessage("Goodbye!");
-               return;
+              case "5":
+              SearchProduct();
+              break;
+
+              case "6":
+              ProductView.ShowMessage("Goodbye!");
+              return;
             }
         }
     }
@@ -108,5 +112,20 @@ private void DeleteProduct()
     string result = _inventoryService.DeleteProduct(productName);
 
     ProductView.ShowMessage(result);
+}
+
+private void SearchProduct()
+{
+    string productName = ProductView.ReadProductNameToSearch();
+
+    Product? product = _inventoryService.GetProductByName(productName);
+
+    if (product is null)
+    {
+        ProductView.ShowMessage("Product was not found.");
+        return;
+    }
+
+    ProductView.DisplayProduct(product);
 }
 }
