@@ -139,7 +139,7 @@ Each product contains:
 
 ### Edit & Search Product
 
-![Edit & Search Product](docs/screenshots/edit&search-product.png)
+![Edit & Search Product](docs\screenshots\edit&search-product.png)
 
 ### Database
 
